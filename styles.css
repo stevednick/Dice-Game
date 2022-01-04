@@ -1,0 +1,143 @@
+
+.game-over-text{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+}
+
+.calculation-box{
+  margin: 50px 280px 0 280px;
+  height: 230px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calculation-column{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.calculation-text{
+  margin: 0;
+  color: grey;
+}
+.line2,.line4, .line6{
+  text-decoration: underline;
+}
+
+.button{
+  font-weight: bold;
+  width: 80%;
+  text-align: center;
+  background-color: tomato;
+  opacity: 0.8;
+  color: white;
+  padding: 15px 0;
+  border-radius: 10px;
+}
+
+.line8, .line9{
+  color: green;
+}
+
+.cash-text{
+  color: black;
+}
+.money-display-box{
+  width:100%;
+  margin: -8px;
+  position: absolute;
+  top: 190px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 264px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.text-column > h2{
+  font-size: 1.4em;
+}
+.text-column > h2:nth-of-type(1){
+  font-size: 1.7em;
+}
+
+.roll-button{
+    background-color: tomato;
+    width: 200px;
+    height: 104px;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.roll-button-text{
+  color: white;
+  font-size: 30px;
+}
+
+.left{
+  left: 80px;
+}
+.right{
+  right: 80px;
+}
+
+.invisible{
+  visibility: hidden;
+}
+
+.dice{
+  position: absolute;
+  top: 50px;
+  padding: 4px;
+  background-color: tomato;
+  width: 104px;
+  height: 104px;
+  border-radius: 10%;
+  display: flex;
+}
+.dot{
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+}
+.first-face{
+  justify-content: center;
+  align-items: center;
+}
+.second-face, .third-face, .fourth-face, .fifth-face, .sixth-face, .seventh-face, .eighth-face, .ninth-face{
+  justify-content: space-between;
+}
+.second-face .dot:nth-of-type(2), .third-face .dot:nth-of-type(3){
+  align-self: flex-end;
+}
+.third-face .dot:nth-of-type(2){
+  align-self: center;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.fifth-face .column:nth-of-type(2), .seventh-face .column:nth-of-type(2){
+  justify-content: center;
+}
