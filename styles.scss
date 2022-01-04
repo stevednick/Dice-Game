@@ -1,0 +1,109 @@
+@use 'dice';
+@use 'fireworks';
+$dice-colour: tomato;
+$distance-from-side: 80px;
+$calculation-box-distance-from-side: 280px;
+
+.game-over-text{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+}
+
+.calculation-box{
+  margin: 50px $calculation-box-distance-from-side 0 $calculation-box-distance-from-side;
+  height: 230px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calculation-column{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.calculation-text{
+  margin: 0;
+  color: grey;
+}
+.line2,.line4, .line6{
+  text-decoration: underline;
+}
+
+.button{
+  font-weight: bold;
+  width: 80%;
+  text-align: center;
+  background-color: $dice-colour;
+  opacity: 0.8;
+  color: white;
+  padding: 15px 0;
+  border-radius: 10px;
+}
+
+.line8, .line9{
+  color: green;
+}
+
+.cash-text{
+  color: black;
+}
+.money-display-box{
+  width:100%;
+  margin: -8px;
+  position: absolute;
+  top: 190px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $distance-from-side * 2 + 104px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.text-column > h2{
+  font-size: 1.4em;
+}
+.text-column > h2:nth-of-type(1){
+  font-size: 1.7em;
+}
+
+.roll-button{
+    background-color: $dice-colour;
+    width: 200px;
+    height: 104px;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.roll-button-text{
+  color: white;
+  font-size: 30px;
+}
+
+.left{
+  left: $distance-from-side;
+}
+.right{
+  right: $distance-from-side;
+}
+
+.invisible{
+  visibility: hidden;
+}

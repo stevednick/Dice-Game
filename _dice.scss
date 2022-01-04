@@ -1,0 +1,40 @@
+$dice-colour: tomato;
+
+.dice{
+  position: absolute;
+  top: 50px;
+  padding: 4px;
+  background-color: $dice-colour;
+  width: 104px;
+  height: 104px;
+  border-radius: 10%;
+  display: flex;
+}
+.dot{
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+}
+.first-face{
+  justify-content: center;
+  align-items: center;
+}
+.second-face, .third-face, .fourth-face, .fifth-face, .sixth-face, .seventh-face, .eighth-face, .ninth-face{
+  justify-content: space-between;
+}
+.second-face .dot:nth-of-type(2), .third-face .dot:nth-of-type(3){
+  align-self: flex-end;
+}
+.third-face .dot:nth-of-type(2){
+  align-self: center;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.fifth-face .column:nth-of-type(2), .seventh-face .column:nth-of-type(2){
+  justify-content: center;
+}

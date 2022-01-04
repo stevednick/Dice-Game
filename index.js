@@ -17,7 +17,7 @@ var currentWinnings = 10;
 var currentGo = 0;
 
 function player() {
-  this.cash = 0;
+  this.cash = 100000;
   this.adderLevel = 0;
   this.multiplierLevel = 0;
   this.powerLevel = 0;
@@ -77,8 +77,6 @@ function buyUpgrade(side, upgrade) {
 
 var players = [new player(), new player()];
 displayLevels();
-
-
 
 function animateDice() {
   var scores = [0, 0];
@@ -157,6 +155,7 @@ function applyScores(winnings) {
   displayLevels();
   if(checkIfPlayerInDebt()){
     $(".game-over-text").text("Game Over!");
+    controlFireworks(true);
   }
 }
 
@@ -191,6 +190,14 @@ function checkIfPlayerInDebt(){
   return false;
 }
 
+function controlFireworks(on){
+  if (!on){
+    $(".pyro").addClass('invisible');
+    return;
+  }
+  $(".pyro").removeClass('invisible');
+}
 
+controlFireworks(false);
 showRandomDice(0);
 showRandomDice(1);
