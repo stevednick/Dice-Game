@@ -17,7 +17,7 @@ var currentWinnings = 10;
 var currentGo = 0;
 
 function player() {
-  this.cash = 100000;
+  this.cash = 0;
   this.adderLevel = 0;
   this.multiplierLevel = 0;
   this.powerLevel = 0;
