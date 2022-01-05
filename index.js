@@ -1,4 +1,4 @@
-var sideStartingCost = 100;
+var sideStartingCost = 100; //Cost to remove low numbers
 var sidePriceInreasePower = 2;
 var adderStartingCost = 120;
 var adderPriceIncrease = 1;
@@ -16,6 +16,13 @@ var purchasesPriceIncrease = 0.1;
 var currentWinnings = 10;
 var currentGo = 0;
 
+var players = [new player(), new player()];
+displayLevels();
+
+controlFireworks(false);
+showRandomDice(0);
+showRandomDice(1);
+
 function player() {
   this.cash = 0;
   this.adderLevel = 0;
@@ -30,7 +37,7 @@ $(".roll-button").click(function(event) {
   animateDice();
 });
 
-$(".button").click(function(event) {
+$(".text-column > .btn").click(function(event) {
   var side = ($(event.target).hasClass('left-b') ? 0 : 1);
   var upgrade = 0;
   if ($(event.target).hasClass('multiplier')) {
@@ -75,18 +82,17 @@ function buyUpgrade(side, upgrade) {
   }
 }
 
-var players = [new player(), new player()];
-displayLevels();
+
 
 function animateDice() {
   var scores = [0, 0];
   var interval = setInterval(function() {
     scores = [showRandomDice(0), showRandomDice(1)];
-  }, 130);
+  }, 80);
   setTimeout(function() {
     clearInterval(interval);
     calculateAndDisplayScores(scores);
-  }, 1200);
+  }, 1000);
 }
 
 
@@ -145,7 +151,7 @@ function calculateAndDisplayScores(results) {
       var lineName = ".line" + currentLine;
       $(lineName).removeClass('invisible');
       currentLine++;
-    }, 300 * i);
+    }, 200 * i);
   }
 }
 
@@ -197,7 +203,3 @@ function controlFireworks(on){
   }
   $(".pyro").removeClass('invisible');
 }
-
-controlFireworks(false);
-showRandomDice(0);
-showRandomDice(1);

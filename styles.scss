@@ -1,7 +1,7 @@
 @use 'dice';
 @use 'fireworks';
-$dice-colour: tomato;
-$distance-from-side: 80px;
+@use 'posh-button';
+$dice-colour: #007EA7;
 $calculation-box-distance-from-side: 280px;
 
 .game-over-text{
@@ -12,23 +12,27 @@ $calculation-box-distance-from-side: 280px;
   font-size: 3em;
 }
 
-.calculation-box{
-  margin: 50px $calculation-box-distance-from-side 0 $calculation-box-distance-from-side;
-  height: 230px;
-  display: flex;
-  justify-content: space-between;
-}
-
 .calculation-column{
+  margin-top: -150px;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+}
+
+.left-c-c{
+  align-items: flex-start;
+}
+
+.right-c-c{
   align-items: flex-end;
 }
 
 .calculation-text{
+  font-size: 18px;
   margin: 0;
-  color: grey;
+  padding-bottom: 10px;
+  color: white;
 }
 .line2,.line4, .line6{
   text-decoration: underline;
@@ -41,16 +45,18 @@ $calculation-box-distance-from-side: 280px;
   background-color: $dice-colour;
   opacity: 0.8;
   color: white;
-  padding: 15px 0;
+  padding: 0px 0;
   border-radius: 10px;
 }
+
 
 .line8, .line9{
   color: green;
 }
 
 .cash-text{
-  color: black;
+  color: white;
+  text-align: center;
 }
 .money-display-box{
   width:100%;
@@ -58,14 +64,13 @@ $calculation-box-distance-from-side: 280px;
   position: absolute;
   top: 190px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .text-column{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: $distance-from-side * 2 + 104px;
+  justify-content: flex-start;
   margin-left: 0px;
   margin-right: 0px;
 }
@@ -78,18 +83,18 @@ $calculation-box-distance-from-side: 280px;
 }
 
 .roll-button{
-    background-color: $dice-colour;
     width: 200px;
     height: 104px;
     position: absolute;
     bottom: 100px;
     left: 50%;
     transform: translate(-50%, 0);
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
+    padding: 0;
+    margin: 0;
 }
 
 .roll-button-text{
@@ -98,10 +103,10 @@ $calculation-box-distance-from-side: 280px;
 }
 
 .left{
-  left: $distance-from-side;
+  left: 10.5%;
 }
 .right{
-  right: $distance-from-side;
+  right: 11%;
 }
 
 .invisible{
