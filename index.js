@@ -175,6 +175,21 @@ function displayLevels() {
     $(column + ">.power").text("**" + (1 + players[i].powerLevel * powerValue).toFixed(2) + " ($" + getPrice(i, 3).toFixed(2) + ")");
     $(column + ">.steal").text("Steal: $" + (players[i].stealLevel * stealValue) + " ($" + getPrice(i, 2).toFixed(2) + ")");
   }
+  powerDownButtons();
+}
+
+function powerDownButtons(){
+  var columns = [".left-column", ".right-column"];
+  var buttonTypes = [">.adder", ">.multiplier", ">.steal", ">.power", ">.sides"];
+  for (i = 0; i<2; i++){
+    for (t = 0; t < 5; t++){
+      if (players[i].cash >= getPrice(i, t)){
+        $(columns[i] + buttonTypes[t]).removeClass('powered-down');
+      } else {
+        $(columns[i] + buttonTypes[t]).addClass('powered-down');
+      }
+    }
+  }
 }
 
 function getMultiplier(level) {
