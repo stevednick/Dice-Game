@@ -13,8 +13,13 @@ var levelMultiplier = 1.1;
 var multiplierValue = 0.1;
 var powerValue = 0.01;
 var purchasesPriceIncrease = 0.1;
-var currentWinnings = 10;
-var currentGo = 0;
+var startingWinnings = 20; 
+// var currentGo = 0;
+var winningsIncreasePower = 1.2; // Winnings *= 1.2 to the power of players[side].winningsLevel
+var winningsStartingCost = 10; // Initial cost.
+var winningsPriceIncrease = 0.2;
+
+// Winnings upgrades?
 
 var players = [new player(), new player()];
 displayLevels();
@@ -31,6 +36,7 @@ function player() {
   this.stealLevel = 0;
   this.purchasesMade = 0;
   this.sidesRemoved = 0;
+  this.winningsLevel = 0;
 }
 
 $(".roll-button").click(function(event) {
@@ -48,6 +54,8 @@ $(".text-column > .btn").click(function(event) {
     upgrade = 3;
   } else if ($(event.target).hasClass('sides')) {
     upgrade = 4;
+  } else if ($(event.target).hasClass('winnings')) {
+    upgrade = 5;
   }
   buyUpgrade(side, upgrade);
 });
@@ -71,6 +79,10 @@ function buyUpgrade(side, upgrade) {
       break;
     case 4:
       players[side].sidesRemoved += 1; // limit No. sides
+      break;
+    case 5:
+      players[side].winningsLevel += 1; // limit No. sides
+      console.log("got");
       break;
     default:
   }
@@ -128,19 +140,19 @@ function calculateAndDisplayScores(results) {
 
   if (totals[0] > totals[1]) {
     stealAmount = (totals[0] - totals[1]) * players[0].stealLevel * stealValue;
-    winnings = [stealAmount + (currentWinnings * getMultiplier(currentGo)), -stealAmount];
-    $(sides[0] + " > .line8").text("Winnings: $" + (currentWinnings * getMultiplier(currentGo)).toFixed(2));
+    winnings = [stealAmount + getWinnings(0), -stealAmount];
+    $(sides[0] + " > .line8").text("Winnings: $" + getWinnings(0).toFixed(2));
     if (stealAmount > 0) $(sides[0] + " > .line9").text("Steal: $" + stealAmount.toFixed(2));
   } else if (totals[1] > totals[0]) {
     stealAmount = (totals[1] - totals[0]) * players[1].stealLevel * stealValue;
-    winnings = [-stealAmount, stealAmount + (currentWinnings * getMultiplier(currentGo))];
-    $(sides[1] + " > .line8").text("Winnings: $" + (currentWinnings * getMultiplier(currentGo)).toFixed(2));
+    winnings = [-stealAmount, stealAmount + getWinnings(1)];
+    $(sides[1] + " > .line8").text("Winnings: $" + getWinnings(1).toFixed(2));
     if (stealAmount > 0) $(sides[1] + " > .line9").text("Steal: $" + stealAmount.toFixed(2));
   } else {
     $(".line8").text("Draw");
   }
 
-  currentGo += 1;
+  // currentGo += 1;
   for (i = 0; i < 9; i++) {
     var currentLine = 1;
     setTimeout(function() {
@@ -168,6 +180,7 @@ function applyScores(winnings) {
 function displayLevels() {
   for (i = 0; i < 2; i++) {
     var column = (i ? ".right-column" : ".left-column");
+    $(column + ">.winnings").text("Win: $" + getWinnings(i).toFixed(2) + " ($" + getPrice(i, 5).toFixed(2) + ")");
     $(column + ">.sides").text("Removed: " + players[i].sidesRemoved + " ($" + getPrice(i, 4).toFixed(2) + ")");
     $(column + ">.cash-text").text("$" + players[i].cash.toFixed(2));
     $(column + ">.adder").text("+" + players[i].adderLevel + " ($" + getPrice(i, 0).toFixed(2) + ")");
@@ -178,11 +191,15 @@ function displayLevels() {
   powerDownButtons();
 }
 
+function getWinnings(side){
+  return startingWinnings * Math.pow(winningsIncreasePower, players[side].winningsLevel);
+}
+
 function powerDownButtons(){
   var columns = [".left-column", ".right-column"];
-  var buttonTypes = [">.adder", ">.multiplier", ">.steal", ">.power", ">.sides"];
+  var buttonTypes = [">.adder", ">.multiplier", ">.steal", ">.power", ">.sides", ">.winnings"];
   for (i = 0; i<2; i++){
-    for (t = 0; t < 5; t++){
+    for (t = 0; t < 6; t++){
       if (players[i].cash >= getPrice(i, t)){
         $(columns[i] + buttonTypes[t]).removeClass('powered-down');
       } else {
@@ -199,6 +216,8 @@ function getMultiplier(level) {
 function getPrice(side, upgrade){
   if (upgrade == 4){
     return sideStartingCost * Math.pow(sidePriceInreasePower, players[side].sidesRemoved) * (1+(purchasesPriceIncrease*players[side].purchasesMade));
+  } else if (upgrade == 5){
+    return winningsStartingCost * (1 + winningsPriceIncrease * players[side].winningsLevel) * (1+(purchasesPriceIncrease*players[side].purchasesMade));
   }
   var upgrades = [players[side].adderLevel, players[side].multiplierLevel, players[side].stealLevel, players[side].powerLevel];
   var basicPrices = [adderStartingCost, multiplierStartingCost, stealStartingCost, powerStartingCost];
