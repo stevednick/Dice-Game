@@ -1,14 +1,14 @@
 $dice-colour: #007EA7;
 
 .dice{
-  position: absolute;
-  top: 50px;
   padding: 4px;
   background-color: $dice-colour;
   width: 104px;
   height: 104px;
   border-radius: 10%;
   display: flex;
+  grid-column: 1;
+  grid-row: 1;
 }
 .dot{
   display: block;

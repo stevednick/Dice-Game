@@ -1,18 +1,18 @@
-var sideStartingCost = 70; //Cost to remove low numbers
-var sidePriceInreasePower = 2;
-var adderStartingCost = 80;
-var adderPriceIncrease = 1;
+var sideStartingCost = 50; //Cost to remove low numbers
+var sidePriceInrease = 0.0;
+var adderStartingCost = 100;
+var adderPriceIncrease = 0.0;
 var multiplierStartingCost = 50;
-var multiplierPriceIncrease = 0.2;
-var powerStartingCost = 30;
-var powerPriceIncrease = 0.15;
+var multiplierPriceIncrease = 0.17;
+var powerStartingCost = 18;
+var powerPriceIncrease = 0.55;
 var stealStartingCost = 150;
 var stealPriceIncrease = 1.3;
 var stealValue = 1;
 var levelMultiplier = 1.1;
 var multiplierValue = 0.1;
-var powerValue = 0.01;
-var purchasesPriceIncrease = 0.1;
+var powerValue = 0.02;
+var purchasesPriceIncrease = 0.2;
 var startingWinnings = 20;
 var currentGo = 0;
 var winningsIncreasePower = 1.15; // Winnings *= 1.2 to the power of players[side].winningsLevel
@@ -53,6 +53,7 @@ $(".computer-switch").click(function(event) {
 });
 
 $(".roll-button").click(function(event) {
+  getUpgradeValueForMonies(players[1]);
   animateDice();
 });
 
@@ -76,6 +77,7 @@ $(".text-column > .btn").click(function(event) {
 function buyUpgrade(side, upgrade) {
   var upgradeCost = getPrice(side, upgrade);
   if (!checkIfCanAfford(side, upgradeCost)) return false;
+  if (upgrade == 4 && players[side].sidesRemoved == 8) return false;
   players[side].cash -= upgradeCost;
 
   switch (upgrade) {  // How to tidy this? And how to ad more upgrades without chinging code everywhere?
@@ -250,15 +252,55 @@ function orderPrices(prices){
   return listToReturn;
 }
 
+function getBestUpgradeForReturn(){
+
+}
+
+function getUpgradeValueForMonies(p){
+  var upgradesToCheck = [0, 1, 3, 4]
+  var upgradeImprovements = [];
+  var upgradeValueForMonies = [];
+  var currentValue = getAverageScore(p);
+  for (j=0; j<upgradesToCheck.length; j++){
+    var playerToTest = new player();
+    playerToTest.adderLevel = p.adderLevel;
+    playerToTest.multiplierLevel = p.multiplierLevel;
+    playerToTest.powerLevel = p.powerLevel;
+    playerToTest.sidesRemoved = p.sidesRemoved;
+    if (j==0) playerToTest.adderLevel += 1;
+    if (j==1) playerToTest.multiplierLevel += 1;
+    if (j==2) playerToTest.powerLevel += 1;
+    if (j==3) playerToTest.sidesRemoved +=1;
+    upgradeImprovements.push(getAverageScore(playerToTest)-currentValue);
+    upgradeValueForMonies.push(100*upgradeImprovements[j]/getPrice(1, upgradesToCheck[j]));
+  }
+  console.log(upgradeImprovements);
+  console.log(upgradeValueForMonies);
+  return upgradeImprovements;
+}
+
+function getAverageScore(playerToTest){
+  var totalScore = 0;
+  for (i=playerToTest.sidesRemoved+1; i<10; i++){
+    var scoreForRoll = i;
+    scoreForRoll += playerToTest.adderLevel;
+    scoreForRoll *= 1 + playerToTest.multiplierLevel*multiplierValue;
+    scoreForRoll = Math.pow(scoreForRoll, 1 + playerToTest.powerLevel * powerValue);
+    totalScore += scoreForRoll;
+  }
+  return totalScore/(9-playerToTest.sidesRemoved);
+}
+
+
+
 function getMultiplier(level) {
   return Math.pow(levelMultiplier, level);
 }
 
-function getPrice(side, upgrade, power = false){
-  if (upgrade == 4) power = true;
+function getPrice(side, upgrade){
   var basicPrices = [adderStartingCost, multiplierStartingCost, stealStartingCost, powerStartingCost, sideStartingCost, winningsStartingCost];
-  var priceIncreases = [adderPriceIncrease, multiplierPriceIncrease, stealPriceIncrease, powerPriceIncrease, sidePriceInreasePower, winningsPriceIncrease];
-  if (power) return basicPrices[upgrade] * Math.pow(priceIncreases[upgrade], getUpgradeLevel(side, upgrade)) * getPriceIncrease(side);
+  var priceIncreases = [adderPriceIncrease, multiplierPriceIncrease, stealPriceIncrease, powerPriceIncrease, sidePriceInrease, winningsPriceIncrease];
+  //if (power) return basicPrices[upgrade] * Math.pow(priceIncreases[upgrade], getUpgradeLevel(side, upgrade)) * getPriceIncrease(side);
   return basicPrices[upgrade] * (1 + (priceIncreases[upgrade] * getUpgradeLevel(side, upgrade))) * getPriceIncrease(side);
 }
 
